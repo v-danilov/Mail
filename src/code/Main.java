@@ -14,10 +14,9 @@ public class Main extends Application {
         Parent logOn = FXMLLoader.load(getClass().getResource("../view/LogOn.fxml"));
         primaryStage.setTitle("JMP");
         primaryStage.setScene(new Scene(logOn));
-
         primaryStage.show();
 
-        //Parent mainWindow = FXMLLoader.load(getClass().getResource("../view/ApplicationWindow.fxml"));
+        //Parent mainWindow = FXMLLoader.load(getClass().getResource("../view/MailWindow.fxml"));
         //primaryStage.setTitle("Hello World");
         //primaryStage.setScene(new Scene(mainWindow, 300, 275));
         //primaryStage.show();

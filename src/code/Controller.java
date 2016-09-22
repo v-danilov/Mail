@@ -3,7 +3,10 @@ package code;
 
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.ProgressIndicator;
@@ -11,6 +14,7 @@ import javafx.scene.control.TextField;
 
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.mail.*;
@@ -18,6 +22,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import java.awt.*;
+import javafx.event.ActionEvent;
+import java.io.IOException;
 import java.util.Properties;
 
 public class Controller {
@@ -37,8 +43,30 @@ public class Controller {
     private ProgressIndicator loadingcircle;
 
     @FXML
-    public void logOn() {
+    public void logOn(ActionEvent event) throws IOException {
+        if(authorization() == true){
+            Parent mailWindowParent = FXMLLoader.load(getClass().getResource("../view/MailWindow.fxml"));
+            Scene mailWindowScene = new Scene(mailWindowParent);
+            Stage appStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            appStage.hide();
+            appStage.setScene(mailWindowScene);
+            appStage.show();
+        }else {
+            //do smth
+        }
+    }
 
+    public void hideAnimation(Node node) {
+        node.setDisable(true);
+        node.setOpacity(0);
+    }
+
+    public void showAnimation(Node node) {
+        node.setDisable(false);
+        node.setOpacity(1);
+    }
+
+    public boolean authorization() {
         hideAnimation(singInbtn);
         showAnimation(loadingcircle);
 
@@ -65,8 +93,8 @@ public class Controller {
                 //transport.sendMessage(msg, msg.getAllRecipients());
                 System.out.println("Connected successfully at " + login);
                 transport.close();
-            }
-            catch (AuthenticationFailedException afe){
+                return true;
+            } catch (AuthenticationFailedException afe) {
                 loginField.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             }
 
@@ -74,25 +102,10 @@ public class Controller {
             showAnimation(singInbtn);
 
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.err.println("Error: " + e.getStackTrace() + e.getMessage());
         }
-        singInbtn.setOpacity(1);
-    }
+        return false;
 
-    public void hideAnimation(Node node){
-        FadeTransition ft = new FadeTransition(Duration.millis(1000), node);
-        ft.setFromValue(1.0);
-        ft.setToValue(0);
-        ft.play();
-
-    }
-
-    public void showAnimation(Node node){
-        FadeTransition ft = new FadeTransition(Duration.millis(1000), node);
-        ft.setFromValue(0);
-        ft.setToValue(1.0);
-        ft.play();
     }
 }
