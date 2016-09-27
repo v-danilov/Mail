@@ -23,7 +23,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent logOn = FXMLLoader.load(getClass().getResource("../view/LogOn.fxml"));
+        Parent logOn = FXMLLoader.load(getClass().getResource("../view/MailWindow.fxml"));
         primaryStage.setTitle("JMP");
         primaryStage.setScene(new Scene(logOn));
         primaryStage.show();
