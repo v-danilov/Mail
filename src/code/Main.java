@@ -9,6 +9,18 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    private User user;
+
+    private static Main instance;
+
+    public Main() {
+        instance = this;
+    }
+
+    public static Main getInstance() {
+        return instance;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent logOn = FXMLLoader.load(getClass().getResource("../view/LogOn.fxml"));
@@ -26,4 +38,12 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    public boolean userLogging(String u, String p){
+        user = new User();
+        boolean bool = user.authorization(u,p);
+        return  bool;
+    }
+
+
 }
