@@ -45,4 +45,12 @@ public class User {
         }
         return false;
     }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public Transport getTransport() {
+        return transport;
+    }
 }

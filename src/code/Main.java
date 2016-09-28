@@ -4,8 +4,10 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
+
+import javax.mail.Session;
+import javax.mail.Transport;
 
 public class Main extends Application {
 
@@ -23,12 +25,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent logOn = FXMLLoader.load(getClass().getResource("../view/MailWindow.fxml"));
+        Parent logOn = FXMLLoader.load(getClass().getResource("../view/LogOn.fxml"));
         primaryStage.setTitle("JMP");
         primaryStage.setScene(new Scene(logOn));
+        primaryStage.setResizable(false);
         primaryStage.show();
 
-        //Parent mainWindow = FXMLLoader.load(getClass().getResource("../view/MailWindow.fxml"));
+        //Parent mainWindow = FXMLLoader.load(getClass().getResource("../view/MessageForm.fxml"));
         //primaryStage.setTitle("Hello World");
         //primaryStage.setScene(new Scene(mainWindow, 300, 275));
         //primaryStage.show();
@@ -45,5 +48,12 @@ public class Main extends Application {
         return  bool;
     }
 
+    public Session getSession(){
+        return user.getSession();
+    }
+
+    public Transport getTransport(){
+        return user.getTransport();
+    }
 
 }

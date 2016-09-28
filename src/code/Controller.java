@@ -9,17 +9,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import javax.mail.*;
+import javafx.event.ActionEvent;
+
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-import javafx.event.ActionEvent;
 import java.io.IOException;
 
 public class Controller {
@@ -37,47 +40,51 @@ public class Controller {
     @FXML
     private ProgressIndicator loadingcircle;
     @FXML
-    private TextField filedFrom;
+    private TextArea toField;
     @FXML
-    private TextField filedTo;
+    private TextArea headField;
     @FXML
-    private TextField mesBody;
+    private TextArea bodyField;
 
     @FXML
     public void logOn(ActionEvent event) throws IOException {
 
         if(enter()){
-            Parent mailWindowParent = FXMLLoader.load(getClass().getResource("../view/MailWindow.fxml"));
+            Parent mailWindowParent = FXMLLoader.load(getClass().getResource("../view/MainWindow.fxml"));
             Scene mailWindowScene = new Scene(mailWindowParent);
             Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
             stage.hide();
             stage.setScene(mailWindowScene);
+            stage.setResizable(false);
             stage.show();
         }
 
     }
 
     @FXML
-    public void newMessage(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/NewMessageForm.fxml"));
+    public void newMessage() throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MessageForm.fxml"));
         Parent newMailWindow = loader.load();
         //ControllerNewMessageForm controllerNewMessageForm = (ControllerNewMessageForm)loader.getController();
         //controllerNewMessageForm.setTextToFiled(login);
         Stage stage = new Stage();
         stage.setTitle("New Message");
         stage.setScene(new Scene(newMailWindow));
+        stage.setResizable(false);
         stage.show();
     }
 
     @FXML
     public void sendMessage(){
         try {
-            /*Message msg = new MimeMessage(session);
+            Session ssn = Main.getInstance().getSession();
+            Transport tport = Main.getInstance().getTransport();
+            Message msg = new MimeMessage(ssn);
             msg.setFrom(new InternetAddress(login));
-            msg.setSubject("Auto Generated Mail");
-            msg.setText(mesBody.getText());
-            msg.setRecipient(Message.RecipientType.TO, new InternetAddress(filedTo.getText()));
-            transport.sendMessage(msg, msg.getAllRecipients());*/
+            msg.setSubject(headField.getText());
+            msg.setText(bodyField.getText());
+            msg.setRecipient(Message.RecipientType.TO, new InternetAddress(toField.getText()));
+            tport.sendMessage(msg, msg.getAllRecipients());
         }
         catch (Exception e){
             System.err.println("Error: " + e.getMessage() + "\n" + e.getStackTrace());
