@@ -7,17 +7,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane fx:id="pane" alignment="CENTER" blendMode="SRC_ATOP" disable="false" focusTraversable="false" gridLinesVisible="true" hgap="0.0" prefHeight="587.0000999999975" prefWidth="717.0" vgap="0.0" visible="true" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="code.Controller">
+<GridPane id="pane" alignment="CENTER" blendMode="SRC_ATOP" disable="false" focusTraversable="false" gridLinesVisible="true" hgap="0.0" prefHeight="587.0000999999975" prefWidth="717.0" vgap="0.0" visible="true" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="code.Controller">
   <children>
     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
       <children>
         <GridPane gridLinesVisible="true" prefHeight="587.0" prefWidth="517.0000999999975" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <children>
-            <TextArea fx:id="fromFeild" editable="false" maxHeight="30.0" minHeight="10.0" prefHeight="10.0" prefRowCount="10" prefWidth="200.0" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
-              <GridPane.margin>
-                <Insets bottom="2.0" left="50.0" right="50.0" top="2.0" fx:id="x1" />
-              </GridPane.margin>
-            </TextArea>
             <Label graphicTextGap="4.0" text="From:" GridPane.columnIndex="0" GridPane.rowIndex="0">
               <font>
                 <Font name="Calibri" size="18.0" fx:id="x2" />
@@ -31,12 +26,22 @@
                 <Insets bottom="2.0" left="5.0" top="2.0" fx:id="x3" />
               </GridPane.margin>
             </Label>
-            <TextArea id="headField" maxHeight="30.0" minHeight="10.0" prefHeight="10.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+            <AnchorPane id="mesField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
               <children>
                 <Button id="newMessage" layoutX="456.0" layoutY="455.0" mnemonicParsing="false" onAction="#newMessage" prefHeight="30.0" text="New Message" />
+                <Button layoutX="456.0" layoutY="421.0" mnemonicParsing="false" onAction="#update" text="Update" />
+                <TextArea fx:id="mesField" layoutX="0.0" layoutY="0.0" prefHeight="337.0" prefWidth="563.0" wrapText="true" />
               </children>
             </AnchorPane>
+            <Label fx:id="fromLabel" maxWidth="295.0" prefHeight="25.0" prefWidth="295.0" text="" GridPane.columnIndex="0" GridPane.rowIndex="0">
+              <font>
+                <Font size="16.0" fx:id="x1" />
+              </font>
+              <GridPane.margin>
+                <Insets bottom="2.0" left="55.0" right="50.0" top="2.0" fx:id="x3" />
+              </GridPane.margin>
+            </Label>
+            <Label id="fromLabel" fx:id="subjLabel" font="$x1" maxWidth="295.0" prefHeight="25.0" prefWidth="295.0" text="" GridPane.columnIndex="0" GridPane.margin="$x3" GridPane.rowIndex="1" />
           </children>
           <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -49,6 +54,18 @@
         </GridPane>
       </children>
     </AnchorPane>
+    <ScrollPane pannable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+      <content>
+        <GridPane fx:id="pane" gridLinesVisible="true" minHeight="200.0" prefHeight="586.0" prefWidth="153.0">
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-1.0" prefHeight="-1.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+      </content>
+    </ScrollPane>
   </children>
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="357.0" prefWidth="154.0" />

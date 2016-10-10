@@ -6,7 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javax.mail.Folder;
 import javax.mail.Session;
+import javax.mail.Store;
 import javax.mail.Transport;
 
 public class Main extends Application {
@@ -52,8 +54,10 @@ public class Main extends Application {
         return user.getSession();
     }
 
-    public Transport getTransport(){
-        return user.getTransport();
+    public Transport getTransport(){return user.getTransport();}
+
+    public Folder getFolder(){
+        return user.getFolder();
     }
 
 }

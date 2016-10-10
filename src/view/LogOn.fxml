@@ -23,9 +23,9 @@
             <Font name="Calibri Bold" size="22.0" fx:id="x1" />
           </font>
         </Text>
-        <TextField id="loginFiled" fx:id="loginField" layoutX="210.0" layoutY="169.0" prefWidth="200.0" />
+        <TextField id="loginFiled" fx:id="loginField" layoutX="210.0" layoutY="169.0" prefWidth="200.0" text="bounce_man@live.com" />
         <Text font="$x1" layoutX="210.0" layoutY="241.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" />
-        <PasswordField fx:id="passField" layoutX="210.0" layoutY="246.0" prefWidth="200.0" />
+        <PasswordField fx:id="passField" layoutX="210.0" layoutY="246.0" prefWidth="200.0" text="Vadimka48" />
         <Button id="singIn" fx:id="singInbtn" graphicTextGap="4.0" layoutX="266.0" layoutY="301.0" minHeight="29.9998779296875" mnemonicParsing="false" onAction="#logOn" prefHeight="37.0" text="Sing in" textAlignment="LEFT" textOverrun="WORD_ELLIPSIS">
           <font>
             <Font name="Calibri Italic" size="20.0" />
