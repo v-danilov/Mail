@@ -12,15 +12,22 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import javax.mail.internet.*;
 import javax.mail.search.FlagTerm;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import static javax.xml.transform.OutputKeys.ENCODING;
 
 public class Controller {
 
@@ -52,14 +59,16 @@ public class Controller {
     private GridPane pane;
     @FXML
     private Button closeFromButton;
+    @FXML
+    private Button browseButton;
 
     @FXML
     public void logOn(ActionEvent event) throws IOException {
 
-        if(enter()){
+        if (enter()) {
             Parent mailWindowParent = FXMLLoader.load(getClass().getResource("../view/MainWindow.fxml"));
             Scene mailWindowScene = new Scene(mailWindowParent);
-            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.hide();
             stage.setScene(mailWindowScene);
             stage.setResizable(false);
@@ -71,7 +80,7 @@ public class Controller {
     }
 
     @FXML
-    public void newMessage() throws IOException{
+    public void newMessage() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/MessageForm.fxml"));
         Parent newMailWindow = loader.load();
         //ControllerNewMessageForm controllerNewMessageForm = (ControllerNewMessageForm)loader.getController();
@@ -84,37 +93,62 @@ public class Controller {
     }
 
     @FXML
-    public void sendMessage(){
+    public void sendMessage() {
         try {
             Session ssn = Main.getInstance().getSession();
             Transport tport = Main.getInstance().getTransport();
-            Message msg = new MimeMessage(ssn);
+
+            MimeMessage msg = new MimeMessage(ssn);
+
+            msg.setFrom(new InternetAddress(login));
+            msg.setRecipient(Message.RecipientType.TO, new InternetAddress(toField.getText()));
+            msg.setSubject(headField.getText());
+
+            BodyPart messageBodyPart = new MimeBodyPart();
+            //Наверное тут
+            messageBodyPart.setContent(bodyField.getText(), "text/plain; charset=" + ENCODING + "");
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+
+            MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+            String fn = Main.getInstance().getFiles().get(0);
+            DataSource source = new FileDataSource(fn);
+            attachmentBodyPart.setDataHandler(new DataHandler(source));
+            attachmentBodyPart.setFileName(fn);
+            multipart.addBodyPart(attachmentBodyPart);
+
+            msg.setContent(multipart);
+
+
+            //Transport.send(msg);
+
+            /*Message msg = new MimeMessage(ssn);
             msg.setFrom(new InternetAddress(login));
             msg.setSubject(headField.getText());
             msg.setText(bodyField.getText());
-            msg.setRecipient(Message.RecipientType.TO, new InternetAddress(toField.getText()));
-            tport.sendMessage(msg, msg.getAllRecipients());
+            msg.setRecipient(Message.RecipientType.TO, new InternetAddress(toField.getText()));*/
+
+           tport.sendMessage(msg, msg.getAllRecipients());
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information Dialog");
             alert.setHeaderText(null);
             alert.setContentText("Email successfully sent!");
             alert.showAndWait();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.err.println("Error: " + e.getMessage() + "\n" + e.getStackTrace());
         }
     }
 
+
     @FXML
-    public void update(){
+    public void update() {
 
         Folder mailFolder = Main.getInstance().getFolder();
-        if (mailFolder.isOpen() == false){
+        if (mailFolder.isOpen() == false) {
             try {
                 mailFolder.open(Folder.READ_ONLY);
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 System.err.println("Cannot open the folder");
             }
         }
@@ -130,13 +164,13 @@ public class Controller {
             pane.getChildren().removeAll();
             int len = messages.length;
 
-            for (int i = len-1; i >= 0; i--) {
+            for (int i = len - 1; i >= 0; i--) {
                 RowConstraints con = new RowConstraints();
                 con.setPrefHeight(80);
                 pane.getRowConstraints().add(con);
                 froms = messages[i].getFrom();
                 adress = froms == null ? null : ((InternetAddress) froms[0]).getAddress();
-                pane.add(new Label(adress + "\n" + messages[i].getSubject()),0,len-i);
+                pane.add(new Label(adress + "\n" + messages[i].getSubject()), 0, len - i);
 
             }
             System.out.println(messages.length);
@@ -183,12 +217,28 @@ public class Controller {
                 }
             });*/
 
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage() + "\n" + e.getStackTrace() );
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + "\n" + e.getStackTrace());
         }
     }
 
+    @FXML
+    public void attachFile() {
+        ArrayList<String> attach = new ArrayList<>();
+        FileChooser fileChooser = new FileChooser();
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            browseButton.setText(selectedFile.getName());
+            attach.add(selectedFile.getAbsolutePath());
+            Main.getInstance().setFiles(attach);
+
+        } else {
+            browseButton.setText("Browse...");
+
+        }
+
+    }
 
     public boolean enter() {
         //hideAnimation(singInbtn);
@@ -197,7 +247,7 @@ public class Controller {
         login = loginField.getText();
         password = passField.getText();
         boolean success = Main.getInstance().userLogging(login, password);
-        if(!success){
+        if (!success) {
             loginField.setBorder(new Border
                     (new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             return false;
@@ -238,7 +288,7 @@ public class Controller {
     }
 
     @FXML
-    public void closeForm(){
+    public void closeForm() {
         Stage stage = (Stage) closeFromButton.getScene().getWindow();
         stage.close();
     }
@@ -249,8 +299,8 @@ public class Controller {
             Node child = pane.getChildren().get(i);
             if (child.isManaged()) {
                 Integer rowIndex = GridPane.getRowIndex(child);
-                if(rowIndex != null){
-                    numRows = Math.max(numRows,rowIndex+1);
+                if (rowIndex != null) {
+                    numRows = Math.max(numRows, rowIndex + 1);
                 }
             }
         }

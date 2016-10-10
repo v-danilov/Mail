@@ -39,6 +39,7 @@
                 <TextArea fx:id="bodyField" prefHeight="464.0" prefWidth="705.0" wrapText="true" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="6.0" />
                 <Button blendMode="SRC_OVER" cache="false" contentDisplay="CENTER" defaultButton="true" ellipsisString="" layoutX="640.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="29.999900000002526" prefWidth="71.0" text="Send" textAlignment="LEFT" textOverrun="CLIP" AnchorPane.topAnchor="490.0" />
                 <Button fx:id="closeFromButton" blendMode="SRC_OVER" cancelButton="true" contentDisplay="CENTER" defaultButton="false" ellipsisString="" layoutX="558.0" layoutY="490.0" mnemonicParsing="false" onAction="#closeForm" prefHeight="29.999900000002526" prefWidth="71.0" text="Close" textAlignment="LEFT" textOverrun="CLIP" />
+                <Button id="closeFromButton" fx:id="browseButton" blendMode="SRC_OVER" cancelButton="true" contentDisplay="CENTER" defaultButton="false" ellipsisString="" layoutX="14.0" layoutY="492.0" mnemonicParsing="false" onAction="#attachFile" prefHeight="29.999900000002526" prefWidth="71.0" text="Browse..." textAlignment="LEFT" textOverrun="CLIP" />
               </children>
             </AnchorPane>
           </children>

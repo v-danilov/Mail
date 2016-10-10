@@ -10,11 +10,12 @@ import javax.mail.Folder;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Transport;
+import java.util.ArrayList;
 
 public class Main extends Application {
 
     private User user;
-
+    private ArrayList<String> files = new ArrayList<>();
     private static Main instance;
 
     public Main() {
@@ -60,4 +61,11 @@ public class Main extends Application {
         return user.getFolder();
     }
 
+    public ArrayList<String> getFiles() {
+        return files;
+    }
+
+    public void setFiles(ArrayList<String> files) {
+        this.files = files;
+    }
 }

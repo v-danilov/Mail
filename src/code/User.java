@@ -25,12 +25,16 @@ public class User {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.user", username);
         props.put("mail.smtp.pwd", password);
-
-
+        Authenticator auth = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(username, password);
+            }
+        };
 
         try {
             //
-            session = Session.getInstance(props);
+            session = Session.getInstance(props, auth);
             session.setDebug(true);
             transport = session.getTransport("smtp");
             try {
