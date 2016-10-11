@@ -13,6 +13,7 @@ public class User {
     private Transport transport;
     private Store store;
     private Folder folder;
+    static final String ENCODING = "UTF-8";
 
     public boolean authorization(String uname, String pswd){
         username = uname;
@@ -23,8 +24,11 @@ public class User {
         props.put("mail.smtp.host", "smtp.live.com");
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.mime.charset", ENCODING);
         props.put("mail.smtp.user", username);
         props.put("mail.smtp.pwd", password);
+
         Authenticator auth = new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {

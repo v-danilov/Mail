@@ -27,13 +27,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static javax.xml.transform.OutputKeys.ENCODING;
+
 
 public class Controller {
 
     private static String login;
     private static String password;
 
+    static final String ENCODING = "UTF-8";
 
     @FXML
     private TextField loginField;
@@ -102,7 +103,7 @@ public class Controller {
 
             msg.setFrom(new InternetAddress(login));
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(toField.getText()));
-            msg.setSubject(headField.getText());
+            msg.setSubject(headField.getText(),ENCODING);
 
             BodyPart messageBodyPart = new MimeBodyPart();
             //Наверное тут
@@ -114,7 +115,7 @@ public class Controller {
             String fn = Main.getInstance().getFiles().get(0);
             DataSource source = new FileDataSource(fn);
             attachmentBodyPart.setDataHandler(new DataHandler(source));
-            attachmentBodyPart.setFileName(fn);
+            attachmentBodyPart.setFileName(MimeUtility.encodeText(source.getName()));
             multipart.addBodyPart(attachmentBodyPart);
 
             msg.setContent(multipart);
